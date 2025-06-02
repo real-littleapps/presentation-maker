@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="sk">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Presentation Editor (BETA)</title>
+  <style>
+    footer {
+      text-align: center;
+      padding: 15px 10px;
+      color: #666;
+      font-size: 14px;
+      background: #f1f1f1;
+      border-top: 1px solid #ccc;
+      margin-top: 20px;
+    }
+
+    body {
+      font-family: sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      gap: 8px;
+      z-index: 1000;
+    }
+
+    button {
+      background-color: #0078d7;
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      font-size: 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #005a9e;
+    }
+
+    #editor {
+      flex: 1;
+      border: 2px solid #0078d7;
+      border-radius: 10px;
+      background: white;
+      padding: 15px;
+      font-size: 20px;
+      overflow-y: auto;
+      outline: none;
+      margin-top: 50px;
+      min-height: 300px;
+      white-space: pre-wrap;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .slide {
+      position: relative;
+      border: 2px dashed gray;
+      padding: 20px;
+      min-height: 150px;
+      background: white;
+      border-radius: 8px;
+      outline: none;
+      user-select: text;
+    }
+
+    .slide.empty::before {
+      content: attr(data-placeholder);
+      color: #999;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      pointer-events: none;
+      user-select: none;
+      font-style: italic;
+    }
+
+    .slide:focus {
+      border-color: #0078d7;
+      box-shadow: 0 0 5px #0078d7;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: #d9534f;
+      border: none;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      cursor: pointer;
+      line-height: 20px;
+      padding: 0;
+      user-select: none;
+      transition: background-color 0.3s;
+    }
+
+    .close-btn:hover {
+      background: #c9302c;
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    .wrapper {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1;
+      /* zaberie všetok voľný priestor */
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px 10px;
+      color: #666;
+      font-size: 14px;
+      background: #f1f1f1;
+      border-top: 1px solid #ccc;
+    }
+  </style>
+  <link rel="icon" href="icon.png" type="image">
+</head>
+
+<div class="wrapper">
+
+  <main>
+    <div class="topbar">
+      <button id="addSlideBtn">➕ New Slide</button>
+      <button id="saveBtn">💾 Save</button>
+    </div>
+
+    <div id="editor" aria-label="Editor prezentácie" role="main"></div>
+  </main>
+
+  <script src="editor.js"></script>
+
+  <footer>
+    <p>© 2025 - <span id="year"></span> littleapps - All Rights Reserved</p>
+  </footer>
+</div>
+
+<script>
+  // Automaticky doplní aktuálny rok
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</html>

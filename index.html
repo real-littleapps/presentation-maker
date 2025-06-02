@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="sk">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HTML Presentation Maker (Beta)</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="icon.png" type="image">
+</head>
+
+<div class="wrapper">
+
+  <main>
+
+    <h1>HTML Presentation Maker (BETA)</h1>
+    <div class="controls">
+      <button id="newPresentationBtn">➕ New Presentation</button>
+    </div>
+
+    <script>
+      document.getElementById('newPresentationBtn').addEventListener('click', () => {
+        window.location.href = 'editor.html';
+      });
+    </script>
+
+    <div id="editor"></div>
+
+    <script src="script.js"></script>
+  </main>
+
+  <footer>
+    <p>© 2025 - <span id="year"></span> littleapps - All Rights Reserved</p>
+  </footer>
+</div>
+
+<script>
+  // Automaticky doplní aktuálny rok
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</html>
