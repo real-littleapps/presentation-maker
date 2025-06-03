@@ -1,40 +1,48 @@
 const editor = document.getElementById('editor');
-const saveBtn = document.getElementById('saveBtn');
-const addSlideBtn = document.getElementById('addSlideBtn');
+window.onload = () => {
+  const saveBtn = document.getElementById('saveBtn');
+  const addSlideBtn = document.getElementById('addSlideBtn');
 
-function createSlide(content = '') {
+  saveBtn.addEventListener('click', saveFunction);
+  addSlideBtn.addEventListener('click', addSlide);
+};
+
+
+function createSlide(initialContent = '') {
   const slide = document.createElement('div');
-  slide.className = 'slide empty';
-  slide.contentEditable = true;
-  slide.setAttribute('data-placeholder', 'Write your text...');
-  slide.innerHTML = content;
+  slide.className = 'slide';
 
-  // Pridáme close button
+  // close button (krížik)
   const closeBtn = document.createElement('button');
   closeBtn.className = 'close-btn';
-  closeBtn.textContent = '×';
-  closeBtn.title = 'Delete slide';
-
+  closeBtn.textContent = '❌';
+  closeBtn.title = 'Vymazať slajd';
   closeBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    if (confirm('Are you sure you want to delete this slide?')) {
+    if (confirm('Naozaj chceš vymazať tento slajd?')) {
       slide.remove();
     }
   });
 
-  slide.appendChild(closeBtn);
+  // obsah slajdu - editable div s placeholderom
+  const content = document.createElement('div');
+  content.className = 'slide-content empty';
+  content.contentEditable = true;
+  content.setAttribute('data-placeholder', 'Napíš svoj text...');
+  content.innerHTML = initialContent;
 
-  // Placeholder správa
+  // placeholder logika - pridá alebo odstráni triedu 'empty'
   function updateEmpty() {
-    if (slide.textContent.trim() === '' || (slide.textContent.trim() === '×')) {
-      slide.classList.add('empty');
-    } else {
-      slide.classList.remove('empty');
-    }
-  }
-  slide.addEventListener('input', updateEmpty);
-  slide.addEventListener('focus', updateEmpty);
-  slide.addEventListener('blur', updateEmpty);
+  content.classList.toggle('empty', content.textContent.trim() === '');
+}
+
+  content.addEventListener('input', updateEmpty);
+  content.addEventListener('focus', updateEmpty);
+  content.addEventListener('blur', updateEmpty);
+
+  // pridaj button a content do slide
+  slide.appendChild(closeBtn);
+  slide.appendChild(content);
 
   updateEmpty();
 
@@ -44,25 +52,26 @@ function createSlide(content = '') {
 function addSlide() {
   const slide = createSlide();
   editor.appendChild(slide);
-  slide.focus();
+  slide.querySelector('.slide-content').focus();
 }
 
 addSlideBtn.addEventListener('click', addSlide);
 
 saveBtn.addEventListener('click', () => {
-  let presentationName = prompt('The name of the presentation', 'new-presentation');
+  let presentationName = prompt('Názov prezentácie', 'Nová prezentácia');
   if (!presentationName) return;
 
-  // Získaj všetky slajdy a ich obsah
-  const slides = Array.from(editor.querySelectorAll('.slide')).filter(s => s.textContent.trim() !== '×' && s.textContent.trim() !== '');
-
+  const slides = Array.from(editor.querySelectorAll('.slide'));
   if (slides.length === 0) {
-    alert('Add at least one slide before saving!');
+    alert('Pridaj aspoň jeden slajd pred uložením!');
     return;
   }
 
-  // Vytvor html pre každý slide
-  const slidesHtml = slides.map(slide => `<section>${slide.innerHTML.replace(/<button.*<\/button>/, '')}</section>`).join('\n');
+  // pre každý slajd vyber obsah (bez tlačidla close)
+  const slidesHtml = slides.map(slide => {
+    const content = slide.querySelector('.slide-content').innerHTML;
+    return `<section>${content}</section>`;
+  }).join('\n');
 
   const html = `
   <!DOCTYPE html>
@@ -87,6 +96,9 @@ saveBtn.addEventListener('click', () => {
     <script>
       Reveal.initialize();
     </script>
+    <footer>
+      <p>Made by HTML Presentation Maker (in beta version)</p>
+    </footer>
   </body>
   </html>
   `;
@@ -102,5 +114,5 @@ saveBtn.addEventListener('click', () => {
   URL.revokeObjectURL(url);
 });
 
-// Na začiatok aspoň 1 slajd
+// pridaj na začiatok aspoň 1 slajd
 addSlide();

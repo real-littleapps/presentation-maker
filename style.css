@@ -187,3 +187,46 @@ footer {
   background: #f1f1f1;
   border-top: 1px solid #ccc;
 }
+
+.slide {
+  position: relative;
+}
+
+.slide-content {
+  position: relative;
+  min-height: 150px;
+  padding: 10px;
+  border: 2px dashed gray;
+  border-radius: 8px;
+  font-size: 20px;
+  outline: none;
+  user-select: text;
+}
+
+/* Placeholder štýl, keď je prázdne */
+.slide-content.empty::before {
+  content: attr(data-placeholder);
+  color: #999;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  pointer-events: none;
+  user-select: none;
+  font-style: italic;
+}
+
+
+.close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #999;
+}
+
+.close-btn:hover {
+  color: red;
+}

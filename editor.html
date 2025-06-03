@@ -77,7 +77,13 @@
       user-select: text;
     }
 
-    .slide.empty::before {
+    /* Tu je placeholder štýl */
+    .slide-content {
+      position: relative;
+      min-height: 150px;
+    }
+
+    .slide-content.empty::before {
       content: attr(data-placeholder);
       color: #999;
       position: absolute;
@@ -87,6 +93,7 @@
       user-select: none;
       font-style: italic;
     }
+
 
     .slide:focus {
       border-color: #0078d7;
@@ -132,40 +139,33 @@
       flex: 1;
       /* zaberie všetok voľný priestor */
     }
-
-    footer {
-      text-align: center;
-      padding: 15px 10px;
-      color: #666;
-      font-size: 14px;
-      background: #f1f1f1;
-      border-top: 1px solid #ccc;
-    }
   </style>
   <link rel="icon" href="icon.png" type="image">
 </head>
 
-<div class="wrapper">
+<body>
+  <div class="wrapper">
+    <main>
+      <div class="topbar">
+        <button id="addSlideBtn">➕ New Slide</button>
+        <button id="saveBtn">💾 Save</button>
+      </div>
 
-  <main>
-    <div class="topbar">
-      <button id="addSlideBtn">➕ New Slide</button>
-      <button id="saveBtn">💾 Save</button>
-    </div>
+      <div id="editor" aria-label="Editor prezentácie" role="main"></div>
+    </main>
 
-    <div id="editor" aria-label="Editor prezentácie" role="main"></div>
-  </main>
+    <footer>
+      <p>© 2025 - <span id="year"></span> <a href="https://siaom550.github.io/littleapps/">littleapps</a> - All Rights
+        Reserved</p>
+    </footer>
+  </div>
 
-  <script src="editor.js"></script>
+  <script src="editor.js" defer></script>
 
-  <footer>
-    <p>© 2025 - <span id="year"></span> littleapps - All Rights Reserved</p>
-  </footer>
-</div>
-
-<script>
-  // Automaticky doplní aktuálny rok
-  document.getElementById("year").textContent = new Date().getFullYear();
-</script>
+  <script>
+    // Automaticky doplní aktuálny rok
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
 
 </html>
